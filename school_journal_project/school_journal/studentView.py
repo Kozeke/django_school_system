@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.utils.timezone import now
-from .models import Student, Attendance, Exam, Grade, UserProfile
+from .models import Student, Attendance, Exam, Grade, UserProfile, Test
 
 
 def student_home(request):
@@ -12,20 +12,28 @@ def student_home(request):
     attendance_absent = Attendance.objects.filter(student_id=student_obj, status=Attendance.ABSENT).count()
     grades = Grade.objects.filter(student_id=student_obj).all()
 
-    exams_list = Exam.objects.filter(date__gte=now().date())
+    lessons = student_obj.lessons.all()
     upcoming_exams = []
+    upcoming_tests = []
 
-    for l in student_obj.lessons.all():
-        exam = exams_list.objects.get(lesson=l.id)
-        if exam is not None:
-            single_course = (l.name, exam.date)
-            upcoming_exams.append(single_course)
+    # Retrieve upcoming exams and tests for each lesson
+    for lesson in lessons:
+        # Exams
+        exams = Exam.objects.filter(lesson=lesson, date__gte=now().date())
+        if exams.exists():
+            upcoming_exams.extend([(lesson.name, exam.date) for exam in exams])
+
+        # Tests
+        tests = Test.objects.filter(lesson=lesson, date__gte=now().date())
+        if tests.exists():
+            upcoming_tests.extend([(lesson.name, test.date) for test in tests])
 
     context = {
         "total_attendance": total_attendance,
         "attendance_present": attendance_present,
         "attendance_absent": attendance_absent,
         "upcoming_exams": upcoming_exams,
+        "upcoming_tests": upcoming_tests,
         "grades": grades,
         "student": student_obj
     }

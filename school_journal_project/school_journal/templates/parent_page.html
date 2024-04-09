@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Page</title>
+</head>
+<body>
+    <h1>Parent Page</h1>
+
+    {% for child, grades in children_grades.items %}
+        <h2>{{ child.name }}</h2>
+        <h3>Grades:</h3>
+        <ul>
+            {% for grade in grades %}
+                <li>{{ grade.grade }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Attendance:</h3>
+        <ul>
+            {% for attendance in children_attendance[child] %}
+                <li>{{ attendance.date }} - {{ attendance.status }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</body>
+</html>

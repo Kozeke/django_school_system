@@ -1,18 +1,71 @@
-<!-- student_page.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Home</title>
+    <style>
+        /* Basic CSS for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .data {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome, {{ student.name }}</h1>
-    <h2>Grades</h2>
-    <ul>
-        {% for grade in grades %}
-            <li>{{ grade.lesson.name }}: {{ grade.grade }}</li>
-        {% endfor %}
-    </ul>
-    <!-- Add more content as needed -->
+    <div class="container">
+        <h1>Welcome, {{ student.name }}</h1>
+        
+        <div class="data">
+            <h2>Attendance</h2>
+            <p>Total Attendance: {{ total_attendance }}</p>
+            <p>Attendance Present: {{ attendance_present }}</p>
+            <p>Attendance Absent: {{ attendance_absent }}</p>
+        </div>
+        
+        <div class="data">
+            <h2>Upcoming Exams</h2>
+            <ul>
+                {% for exam in upcoming_exams %}
+                    <li>{{ exam.0 }} - {{ exam.1 }}</li>
+                {% endfor %}
+            </ul>   
+        </div>
+
+        <div class="data">
+            <h2>Upcoming Tests</h2>
+            <ul>
+                {% for test in upcoming_tests %}
+                    <li>{{ test.0 }} - {{ test.1 }}</li>
+                {% endfor %}
+            </ul>   
+        </div>
+        
+        <div class="data">
+            <h2>Grades</h2>
+            <ul>
+                {% for grade in grades %}
+                    <li>{{ grade.exam.lesson.name }} - {{ grade.grade }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

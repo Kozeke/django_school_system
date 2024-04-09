@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Home</title>
+    <style>
+        /* Basic CSS for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .data {
+            margin-bottom: 20px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .table th {
+            background-color: #f2f2f2;
+        }
+        .table td {
+            background-color: #fff;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teacher Dashboard</h1>
+        <a href="{% url 'create_exam' %}" class="button">Create Exam</a>
+
+        <a href="{% url 'create_test' %}" class="button">Create Test</a>
+
+        <a href="{% url 'post_grade' %}" class="button">Post Grade</a>
+        <a href="{% url 'post_attendance' %}" class="button">Post Attendance</a>
+
+        <div class="data">
+            <h2>Lessons</h2>
+            <ul>
+                {% for lesson in lessons %}
+                    <li>{{ lesson.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="data">
+            <h2>Exams</h2>
+            <table class="table">
+                <tr>
+                    <th>Lesson</th>
+                    <th>date_time</th>
+                </tr>
+                {% for exam in exams %}
+                <tr>
+                    <td>{{ exam.lesson.name }}</td>
+                    <td>{{ exam.date_time }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        
+        <div class="data">
+            <h2>Grades</h2>
+            <table class="table">
+                <tr>
+                    <th>Student</th>
+                    <th>Grade</th>
+                    <th>Exam</th>
+                </tr>
+                {% for grade in grades %}
+                <tr>
+                    <td>{{ grade.student.name }}</td>
+                    <td>{{ grade.grade }}</td>
+                    <td>{{ grade.exam.lesson.name }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        
+        <div class="data">
+            <h2>Attendance</h2>
+            <table class="table">
+                <tr>
+                    <th>Student</th>
+                    <th>Lesson</th>
+                    <th>Attendance</th>
+                    <th>date</th>
+                </tr>
+                {% for attendance in attendances %}
+                <tr>
+                    <td>{{ attendance.student.name }}</td>
+                    <td>{{ attendance.lesson.name }}</td>
+                    <td>{{ attendance.status }}</td>
+                    <td>{{ attendance.date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <!-- Similar to displaying exams and grades -->
+        </div>
+        
+        <div class="data">
+            <h2>Upcoming Exams</h2>
+            <ul>
+                {% for exam in upcoming_exams %}
+                    <li>{{ exam.lesson.name }} - {{ exam.date_time }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="data">
+            <h2>Class Analysis</h2>
+            <p>Best Student: {{ class_analysis.best_student.name }}</p>
+            <p>Worst Student: {{ class_analysis.worst_student.name }}</p>
+            <p>Average Grade: {{ class_analysis.average_grade }}</p>
+        </div>
+    </div>
+</body>
+</html>
