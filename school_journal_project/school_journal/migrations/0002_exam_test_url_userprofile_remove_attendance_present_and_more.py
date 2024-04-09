@@ -90,6 +90,7 @@ class Migration(migrations.Migration):
         migrations.RemoveField(model_name="grade", name="date",),
         migrations.RemoveField(model_name="grade", name="score",),
         migrations.RemoveField(model_name="grade", name="subject",),
+        migrations.RenameModel(old_name="Teacher", new_name="Lesson", ),
         migrations.AddField(
             model_name="attendance",
             name="lesson",
@@ -144,7 +145,6 @@ class Migration(migrations.Migration):
                 on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
             ),
         ),
-        migrations.RenameModel(old_name="Teacher", new_name="Lesson",),
         migrations.DeleteModel(name="Student",),
         migrations.DeleteModel(name="Subject",),
         migrations.AddField(
