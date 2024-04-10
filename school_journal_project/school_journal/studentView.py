@@ -16,17 +16,14 @@ def student_home(request):
     upcoming_exams = []
     upcoming_tests = []
 
-    # Retrieve upcoming exams and tests for each lesson
     for lesson in lessons:
-        # Exams
-        exams = Exam.objects.filter(lesson=lesson, date__gte=now().date())
+        exams = Exam.objects.filter(lesson=lesson, date_time__gte=now().date())
         if exams.exists():
-            upcoming_exams.extend([(lesson.name, exam.date) for exam in exams])
+            upcoming_exams.extend([(lesson.name, exam.date_time) for exam in exams])
 
-        # Tests
-        tests = Test.objects.filter(lesson=lesson, date__gte=now().date())
+        tests = Test.objects.filter(lesson=lesson, date_time__gte=now().date())
         if tests.exists():
-            upcoming_tests.extend([(lesson.name, test.date) for test in tests])
+            upcoming_tests.extend([(lesson.name, test.date_time) for test in tests])
 
     context = {
         "total_attendance": total_attendance,

@@ -16,13 +16,23 @@
                 <li>{{ grade.grade }}</li>
             {% endfor %}
         </ul>
+
+        <h3>Average Grade:</h3>
+        <p>{{ child.average_grade|default:"N/A" }}</p>
         
+        {% if child.average_grade|default:0 < 60 %}
+            <span style="color: red;">Warning: Average Grade is less than 60</span>
+        {% endif %}
+    {% endfor %}
+
+    {% for child, attendances in children_attendance.items %}
+        <h2>{{ child.name }}</h2>
         <h3>Attendance:</h3>
         <ul>
-            {% for attendance in children_attendance[child] %}
+            {% for attendance in attendances %}
                 <li>{{ attendance.date }} - {{ attendance.status }}</li>
             {% endfor %}
         </ul>
-    {% endfor %}
+    {% endfor %} 
 </body>
 </html>
